@@ -1,129 +1,3 @@
-// "use client";
-
-// import React from "react";
-// import ModelSelector from "@/components/ui/ModelSelector";
-// import LanguageSelector from "@/components/ui/LanguageSelector";
-// import AudioPanel from "@/components/ui/AudioPanel";
-// import ActionButtons from "@/components/ui/ActionButtons";
-// import { useScrollPosition } from "@/hooks/useScrollPosition";
-// import { useAudioRecording } from "@/hooks/useAudioRecording";
-// import { useAudioTranslation } from "@/hooks/useAudioTranslation";
-
-// const HeroWithTranslation: React.FC = () => {
-//   const scrollPosition = useScrollPosition();
-
-//   const {
-//     isRecording,
-//     sourceAudio,
-//     toggleRecording,
-//     handleFileUpload,
-//     clearAudio,
-//   } = useAudioRecording();
-
-//   const {
-//     model,
-//     setModel,
-//     sourceLanguage,
-//     setSourceLanguage,
-//     targetLanguage,
-//     setTargetLanguage,
-//     targetAudio,
-//     isTranslating,
-//     translateAudio,
-//     clearTranslation,
-//     modelOptions,
-//     languageOptions,
-//     swapLanguages,
-//   } = useAudioTranslation();
-
-//   const handleTranslate = () => {
-//     translateAudio(sourceAudio);
-//   };
-
-//   const handleClear = () => {
-//     clearAudio();
-//     clearTranslation();
-//   };
-
-//   const handleSourceLanguageChange = (
-//     event: React.ChangeEvent<{ value: unknown }>
-//   ) => {
-//     setSourceLanguage(event.target.value as string);
-//   };
-
-//   const handleTargetLanguageChange = (
-//     event: React.ChangeEvent<{ value: unknown }>
-//   ) => {
-//     setTargetLanguage(event.target.value as string);
-//   };
-
-//   return (
-//     <div className="relative h-screen w-full overflow-hidden flex items-center justify-center">
-//       <div
-//         className="absolute inset-0 bg-cover bg-center"
-//         style={{
-//           backgroundImage: `url('/dragon-background.jpg')`,
-//           backgroundAttachment: "fixed",
-//           backgroundSize: "cover",
-//         }}
-//       />
-//       <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/60 pointer-events-none" />
-
-//       <div className="relative mt-14 z-10 w-full max-w-4xl mx-auto">
-//         <div className="p-6 bg-white backdrop-blur-sm rounded-lg shadow-lg">
-//           <div className="mb-8">
-//             <div className="flex flex-wrap justify-center items-center  mb-2">
-//               <ModelSelector
-//                 model={model}
-//                 setModel={setModel}
-//                 modelOptions={modelOptions}
-//               />
-//             </div>
-//           </div>
-
-//           <div className=" flex flex-col gap-5">
-//             <div>
-//               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-//                 <AudioPanel
-//                   title="Input Audio"
-//                   panelType="input"
-//                   audioUrl={sourceAudio}
-//                   isRecording={isRecording}
-//                   toggleRecording={toggleRecording}
-//                   onFileUpload={handleFileUpload}
-//                 />
-
-//                 <AudioPanel
-//                   title="Output Audio"
-//                   panelType="output"
-//                   audioUrl={targetAudio}
-//                 />
-//               </div>
-//               <LanguageSelector
-//                 sourceLanguage={sourceLanguage}
-//                 targetLanguage={targetLanguage}
-//                 onSourceChange={handleSourceLanguageChange}
-//                 onTargetChange={handleTargetLanguageChange}
-//                 onSwapLanguages={swapLanguages}
-//                 languageOptions={languageOptions}
-//               />
-//             </div>
-//             <ActionButtons
-//               onTranslate={handleTranslate}
-//               onClear={handleClear}
-//               isTranslating={isTranslating}
-//               isTranslateDisabled={!sourceAudio}
-//               isAudioPresent={sourceAudio}
-
-//             />
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default HeroWithTranslation;
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -167,7 +41,7 @@ const HeroWithTranslation: React.FC = () => {
     swapLanguages,
     transcriptionText,
     translationText,
-    error
+    error,
   } = useAudioTranslation();
 
   // Display any error from the translation hook
@@ -205,75 +79,70 @@ const HeroWithTranslation: React.FC = () => {
   };
 
   return (
-    <div className="relative h-screen w-full overflow-hidden flex items-center justify-center">
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: `url('/dragon-background.jpg')`,
-          backgroundAttachment: "fixed",
-          backgroundSize: "cover",
-        }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/60 pointer-events-none" />
+    <div className="relative min-h-screen w-full flex items-center justify-center py-16">
+      {/* Background image with overlay */}
+      <div className="absolute inset-0 bg-cover bg-center bg-fixed" 
+           style={{ backgroundImage: `url('/dragon-background.jpg')` }} />
+      <div className="absolute inset-0 bg-black/70" />
 
-      <div className="relative mt-14 z-10 w-full max-w-4xl mx-auto">
-        <div className="p-6 bg-white backdrop-blur-sm rounded-lg shadow-lg">
-          <div className="mb-8">
-            <div className="flex flex-wrap justify-center items-center mb-2">
-              <ModelSelector
-                model={model}
-                setModel={setModel}
-                modelOptions={modelOptions}
-              />
-            </div>
+      {/* Main content container */}
+      <div className="relative z-10 w-full max-w-4xl mx-auto px-4">
+        <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-2xl overflow-hidden">
+          {/* Header section */}
+          <div className="p-6 bg-gray-50 border-b border-gray-200">
+            <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">Audio Translation</h2>
+            <ModelSelector
+              model={model}
+              setModel={setModel}
+              modelOptions={modelOptions}
+              className="w-full max-w-md mx-auto"
+            />
           </div>
 
-          <div className="flex flex-col gap-5">
-            <div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                <AudioPanel
-                  title="Input Audio"
-                  panelType="input"
-                  audioUrl={sourceAudio}
-                  isRecording={isRecording}
-                  toggleRecording={toggleRecording}
-                  onFileUpload={handleFileUpload}
-                  recordingTime={isRecording ? formatTime(recordingTime) : undefined}
-                />
+          {/* Main content section */}
+          <div className="p-6">
+            {/* Audio panels */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <AudioPanel
+                title="Input Audio"
+                panelType="input"
+                audioUrl={sourceAudio}
+                isRecording={isRecording}
+                toggleRecording={toggleRecording}
+                onFileUpload={handleFileUpload}
+                recordingTime={isRecording ? formatTime(recordingTime) : undefined}
+              />
 
-                <AudioPanel
-                  title="Output Audio"
-                  panelType="output"
-                  audioUrl={targetAudio}
-                />
-              </div>
-              
-              {/* Transcription Display for Cascade Model
-              <TranscriptionDisplay 
-                transcriptionText={transcriptionText}
-                translationText={translationText}
-                isVisible={model === 'Cascade' && (!!transcriptionText || !!translationText)}
-              /> */}
-              
-              {/* Error Message Display */}
-              {errorMessage && (
-                <div className="mt-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-md">
-                  {errorMessage}
-                </div>
-              )}
-              
-              <div className="mt-4">
-                <LanguageSelector
-                  sourceLanguage={sourceLanguage}
-                  targetLanguage={targetLanguage}
-                  onSourceChange={handleSourceLanguageChange}
-                  onTargetChange={handleTargetLanguageChange}
-                  onSwapLanguages={swapLanguages}
-                  languageOptions={languageOptions}
-                />
-              </div>
+              <AudioPanel
+                title="Output Audio"
+                panelType="output"
+                audioUrl={targetAudio}
+              />
             </div>
-            
+
+            {/* Error message */}
+            {errorMessage && (
+              <div className="mb-6 p-3 bg-red-50 border border-red-200 text-red-600 rounded-lg flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+                {errorMessage}
+              </div>
+            )}
+
+            {/* Language selector */}
+            <div className="mb-6">
+              <LanguageSelector
+                sourceLanguage={sourceLanguage}
+                targetLanguage={targetLanguage}
+                onSourceChange={handleSourceLanguageChange}
+                onTargetChange={handleTargetLanguageChange}
+                onSwapLanguages={swapLanguages}
+                languageOptions={languageOptions}
+              />
+            </div>
+
+            {/* Action buttons */}
             <ActionButtons
               onTranslate={handleTranslate}
               onClear={handleClear}
@@ -289,4 +158,3 @@ const HeroWithTranslation: React.FC = () => {
 };
 
 export default HeroWithTranslation;
-

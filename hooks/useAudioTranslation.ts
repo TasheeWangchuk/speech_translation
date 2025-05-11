@@ -11,8 +11,8 @@ type LanguageOption = {
 };
 
 // API endpoints
-const DIRECT_API_URL = "http://10.2.5.134:5000/translate";
-const CASCADE_API_URL = "http://10.2.4.249:5000/api/translate";
+const DIRECT_API_URL = "http://10.2.5.182:5000/translate";
+const CASCADE_API_URL = "http://10.2.4.113:5000/api/translate";
 
 export const useAudioTranslation = () => {
   const [model, setModel] = useState<string>('Direct');
@@ -115,7 +115,7 @@ export const useAudioTranslation = () => {
           setTranslationText(jsonResponse.translation);
 
           // Get the audio from the URL
-          const audioUrl = `http://10.2.4.249:5000${jsonResponse.audio_url}`;
+          const audioUrl = `${jsonResponse.audio_url}`;
 
           // Fetch the audio file
           const audioResponse = await fetch(audioUrl);

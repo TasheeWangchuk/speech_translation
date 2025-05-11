@@ -54,5 +54,5 @@ const RecordingControls: React.FC<RecordingControlsProps> = ({
     </div>
   );
 };
-
 export default RecordingControls;
+

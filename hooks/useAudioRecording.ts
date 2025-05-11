@@ -5,8 +5,6 @@ export const useAudioRecording = () => {
   const [sourceAudio, setSourceAudio] = useState<string | null>(null);
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [recordingTime, setRecordingTime] = useState<number>(0);
-  
-  // Refs for recording
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioStreamRef = useRef<MediaStream | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);

@@ -1,5 +1,11 @@
-import Hero from '@/components/ui/Hero';
+import Hero from "@/components/ui/Hero";
+import About from "@/app/about/page"
 
 export default function Home() {
-  return <Hero/>;
-} 
+  return (
+    <div>
+      <Hero/>
+      <About/>
+    </div>
+  );
+}
