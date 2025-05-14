@@ -224,7 +224,7 @@ type CascadeParams = {
 
 // API endpoints
 const DIRECT_API_URL = "http://10.2.5.119:5000/translate";
-const CASCADE_API_URL = "http://10.2.4.113:5000/api/translate";
+const CASCADE_API_URL = "https://5741-103-133-216-195.ngrok-free.app/api/translate";
 
 export const useAudioTranslation = () => {
   const [model, setModel] = useState<string>('Direct');
