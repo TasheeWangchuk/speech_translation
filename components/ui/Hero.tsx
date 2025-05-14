@@ -92,7 +92,7 @@ const HeroWithTranslation: React.FC = () => {
               model={model}
               setModel={setModel}
               modelOptions={modelOptions}
-              className="w-full max-w-md mx-auto"
+              // className="w-full max-w-md mx-auto"
             />
           </div>
 
