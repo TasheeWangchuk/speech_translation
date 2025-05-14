@@ -103,8 +103,8 @@ const HeroWithTranslation: React.FC = () => {
               <LanguageSelector
                 sourceLanguage={sourceLanguage}
                 targetLanguage={targetLanguage}
-                onSourceChange={handleSourceLanguageChange}
-                onTargetChange={handleTargetLanguageChange}
+                // onSourceChange={handleSourceLanguageChange}
+                // onTargetChange={handleTargetLanguageChange}
                 onSwapLanguages={swapLanguages}
                 languageOptions={languageOptions}
               />

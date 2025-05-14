@@ -10,8 +10,8 @@ type LanguageOption = {
 interface LanguageSelectorProps {
   sourceLanguage: string;
   targetLanguage: string;
-  onSourceChange: (event: SelectChangeEvent) => void;
-  onTargetChange: (event: SelectChangeEvent) => void;
+  // onSourceChange: (event: SelectChangeEvent) => void;
+  // onTargetChange: (event: SelectChangeEvent) => void;
   onSwapLanguages: () => void;
   languageOptions: LanguageOption[];
 }
@@ -19,8 +19,8 @@ interface LanguageSelectorProps {
 const LanguageSelector: React.FC<LanguageSelectorProps> = ({
   sourceLanguage,
   targetLanguage,
-  onSourceChange,
-  onTargetChange,
+  // onSourceChange,
+  // onTargetChange,
   onSwapLanguages,
   languageOptions
 }) => {
@@ -30,7 +30,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
         <FormControl fullWidth variant="outlined">
           <Select
             value={sourceLanguage}
-            onChange={onSourceChange}
+            // onChange={onSourceChange}
             className="bg-gray-50 border border-gray-200 rounded-lg text-black shadow-md"
             size="small"
             MenuProps={{
@@ -61,7 +61,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
         <FormControl fullWidth variant="outlined">
           <Select
             value={targetLanguage}
-            onChange={onTargetChange}
+            // onChange={onTargetChange}
             className="bg-gray-50 border border-gray-200 rounded-lg text-black shadow-md"
             size="small"
             MenuProps={{
