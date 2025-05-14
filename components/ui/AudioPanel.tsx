@@ -7,7 +7,8 @@ interface AudioPanelProps {
   panelType: 'input' | 'output';
   audioUrl: string | null;
   isRecording?: boolean;
-  toggleRecording?: () => void;
+  startRecording?: () => void;
+  stopRecording?: () => void;
   onFileUpload?: (file: File) => void;
   recordingTime?: string;
 }
@@ -17,33 +18,29 @@ const AudioPanel: React.FC<AudioPanelProps> = ({
   panelType, 
   audioUrl,
   isRecording = false,
-  toggleRecording,
+  startRecording,
+  stopRecording,
   onFileUpload,
-  recordingTime,
+  recordingTime
 }) => {
   return (
     <div className="bg-gray-50 rounded-lg shadow-md overflow-hidden border border-gray-200">
       <div className='text-black py-2 px-4 flex justify-center'>
         <h3 className="text-md font-light">{title}</h3>
+        {/* {isRecording && recordingTime && (
+          <span className="ml-2 text-sm text-red-500">{recordingTime}</span>
+        )} */}
       </div>
       <div className="p-4">
         {/* Only show recording controls for input panel */}
-        {panelType === 'input' && toggleRecording && onFileUpload && (
+        {panelType === 'input' && startRecording && stopRecording && onFileUpload && (
           <RecordingControls 
             isRecording={isRecording}
-            toggleRecording={toggleRecording}
+            startRecording={startRecording}
+            stopRecording={stopRecording}
             onFileUpload={onFileUpload}
           />
-        )}
-        
-        {/* Show recording status if recording */}
-        {panelType === 'input' && isRecording && (
-          <div className="flex items-center justify-center p-2 bg-red-50 text-red-500 rounded-md mb-4">
-            <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse mr-2"></div>
-            Recording... {recordingTime && `(${recordingTime})`}
-          </div>
-        )}
-        
+        )} 
         {/* Audio Player */}
         <div className="mt-4 h-32 bg-white rounded-md border border-gray-200 p-3">
           <AudioPlayer audioUrl={audioUrl} panelType={panelType} />
@@ -52,6 +49,4 @@ const AudioPanel: React.FC<AudioPanelProps> = ({
     </div>
   );
 };
-
 export default AudioPanel;
-

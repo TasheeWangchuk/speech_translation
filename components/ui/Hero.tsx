@@ -4,8 +4,6 @@ import React, { useState, useEffect } from "react";
 import ModelSelector from "@/components/ui/ModelSelector";
 import LanguageSelector from "@/components/ui/LanguageSelector";
 import AudioPanel from "@/components/ui/AudioPanel";
-import ActionButtons from "@/components/ui/ActionButtons";
-// import TranscriptionDisplay from "@/components/ui/TranscriptionDisplay";
 import { useScrollPosition } from "@/hooks/useScrollPosition";
 import { useAudioRecording } from "@/hooks/useAudioRecording";
 import { useAudioTranslation } from "@/hooks/useAudioTranslation";
@@ -14,16 +12,6 @@ import { formatTime } from "@/utils/formatTime";
 const HeroWithTranslation: React.FC = () => {
   const scrollPosition = useScrollPosition();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  const {
-    isRecording,
-    sourceAudio,
-    audioFile,
-    recordingTime,
-    toggleRecording,
-    handleFileUpload,
-    clearAudio,
-  } = useAudioRecording();
 
   const {
     model,
@@ -44,21 +32,31 @@ const HeroWithTranslation: React.FC = () => {
     error,
   } = useAudioTranslation();
 
+  // Handle automatic translation when recording completes or file is uploaded
+  const handleRecordingComplete = (file: File) => {
+    setErrorMessage(null);
+    if (file) {
+      translateAudio(file);
+    }
+  };
+
+  const {
+    isRecording,
+    sourceAudio,
+    audioFile,
+    recordingTime,
+    startRecording,
+    stopRecording,
+    handleFileUpload,
+    clearAudio,
+  } = useAudioRecording(handleRecordingComplete);
+
   // Display any error from the translation hook
   useEffect(() => {
     if (error) {
       setErrorMessage(error);
     }
   }, [error]);
-
-  const handleTranslate = () => {
-    setErrorMessage(null);
-    if (audioFile) {
-      translateAudio(audioFile);
-    } else {
-      setErrorMessage("Please select or record audio first");
-    }
-  };
 
   const handleClear = () => {
     clearAudio();
@@ -90,7 +88,6 @@ const HeroWithTranslation: React.FC = () => {
         <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-2xl overflow-hidden">
           {/* Header section */}
           <div className="p-6 bg-gray-50 border-b border-gray-200">
-            <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">Audio Translation</h2>
             <ModelSelector
               model={model}
               setModel={setModel}
@@ -101,6 +98,17 @@ const HeroWithTranslation: React.FC = () => {
 
           {/* Main content section */}
           <div className="p-6">
+              {/* Language selector */}
+              <div className="mb-6">
+              <LanguageSelector
+                sourceLanguage={sourceLanguage}
+                targetLanguage={targetLanguage}
+                onSourceChange={handleSourceLanguageChange}
+                onTargetChange={handleTargetLanguageChange}
+                onSwapLanguages={swapLanguages}
+                languageOptions={languageOptions}
+              />
+            </div>
             {/* Audio panels */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <AudioPanel
@@ -108,7 +116,8 @@ const HeroWithTranslation: React.FC = () => {
                 panelType="input"
                 audioUrl={sourceAudio}
                 isRecording={isRecording}
-                toggleRecording={toggleRecording}
+                startRecording={startRecording}
+                stopRecording={stopRecording}
                 onFileUpload={handleFileUpload}
                 recordingTime={isRecording ? formatTime(recordingTime) : undefined}
               />
@@ -130,26 +139,30 @@ const HeroWithTranslation: React.FC = () => {
               </div>
             )}
 
-            {/* Language selector */}
-            <div className="mb-6">
-              <LanguageSelector
-                sourceLanguage={sourceLanguage}
-                targetLanguage={targetLanguage}
-                onSourceChange={handleSourceLanguageChange}
-                onTargetChange={handleTargetLanguageChange}
-                onSwapLanguages={swapLanguages}
-                languageOptions={languageOptions}
-              />
+            {/* Translation Status */}
+            {isTranslating && (
+              <div className="mb-6 p-3 bg-blue-50 border border-blue-200 text-blue-600 rounded-lg flex items-center justify-center">
+                <svg className="animate-spin h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Translating...
+              </div>
+            )}
+            {/* Clear button only */}
+            <div className="flex items-center justify-center gap-4">
+              <button 
+                onClick={handleClear}
+                disabled={!sourceAudio && !targetAudio}
+                className={`px-6 py-2 rounded-md transition duration-200 shadow-md ${
+                  !sourceAudio && !targetAudio
+                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    : 'bg-red-500 text-white hover:bg-red-600'
+                }`}
+              >
+                Clear
+              </button>
             </div>
-
-            {/* Action buttons */}
-            <ActionButtons
-              onTranslate={handleTranslate}
-              onClear={handleClear}
-              isTranslating={isTranslating}
-              isTranslateDisabled={!sourceAudio}
-              isAudioPresent={!!sourceAudio}
-            />
           </div>
         </div>
       </div>

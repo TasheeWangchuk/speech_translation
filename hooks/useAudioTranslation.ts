@@ -38,8 +38,7 @@ export const useAudioTranslation = () => {
     setSourceLanguage(targetLanguage);
     setTargetLanguage(sourceLanguage);
   };
-
-  // Determine language parameters based on selected model and languages
+ 
   const getLanguageParams = () => {
     const isEnToDz = sourceLanguage === "English" && targetLanguage === "Dzongkha";
 
