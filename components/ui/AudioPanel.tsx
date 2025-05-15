@@ -1,10 +1,10 @@
-import React from 'react';
-import RecordingControls from './RecordingControls';
-import AudioPlayer from './AudioPlayer';
+import React from "react";
+import RecordingControls from "./RecordingControls";
+import AudioPlayer from "./AudioPlayer";
 
 interface AudioPanelProps {
   title: string;
-  panelType: 'input' | 'output';
+  panelType: "input" | "output";
   audioUrl: string | null;
   isRecording?: boolean;
   startRecording?: () => void;
@@ -13,34 +13,39 @@ interface AudioPanelProps {
   recordingTime?: string;
 }
 
-const AudioPanel: React.FC<AudioPanelProps> = ({ 
-  title, 
-  panelType, 
+const AudioPanel: React.FC<AudioPanelProps> = ({
+  title,
+  panelType,
   audioUrl,
   isRecording = false,
   startRecording,
   stopRecording,
   onFileUpload,
-  recordingTime
+  recordingTime,
 }) => {
   return (
     <div className="bg-gray-50 rounded-lg shadow-md overflow-hidden border border-gray-200">
-      <div className='text-black py-2 px-4 flex justify-center'>
+      <div className="text-black py-2 px-4 flex justify-center">
         <h3 className="text-md font-light">{title}</h3>
-        {/* {isRecording && recordingTime && (
-          <span className="ml-2 text-sm text-red-500">{recordingTime}</span>
-        )} */}
       </div>
       <div className="p-4">
-        {/* Only show recording controls for input panel */}
-        {panelType === 'input' && startRecording && stopRecording && onFileUpload && (
-          <RecordingControls 
-            isRecording={isRecording}
-            startRecording={startRecording}
-            stopRecording={stopRecording}
-            onFileUpload={onFileUpload}
-          />
-        )} 
+        <div>
+          {/* Only show recording controls for input panel */}
+          {panelType === "input" &&
+            startRecording &&
+            stopRecording &&
+            onFileUpload && (
+              <RecordingControls
+                isRecording={isRecording}
+                startRecording={startRecording}
+                stopRecording={stopRecording}
+                onFileUpload={onFileUpload}
+              />
+            )}
+          {isRecording && recordingTime && (
+            <span className="ml-2 text-sm text-red-500">{recordingTime}</span>
+          )}
+        </div>
         {/* Audio Player */}
         <div className="mt-4 h-32 bg-white rounded-md border border-gray-200 p-3">
           <AudioPlayer audioUrl={audioUrl} panelType={panelType} />
