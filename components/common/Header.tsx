@@ -47,8 +47,8 @@ const Header = () => {
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex space-x-8">
-            <NavLink href="/" onClick={handleNavLinkClick}>Home</NavLink>
-            <NavLink href="/about" onClick={handleNavLinkClick}>About</NavLink>
+            <NavLink href="#hero" onClick={handleNavLinkClick}>Home</NavLink>
+            <NavLink href="#about" onClick={handleNavLinkClick}>About</NavLink>
           </div>
           
           {/* Mobile Menu Button */}
