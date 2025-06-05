@@ -297,7 +297,10 @@ const HeroWithTranslation: React.FC = () => {
   };
 
   const handleFileUploadWrapper = (event: React.ChangeEvent<HTMLInputElement>) => {
-    handleFileUpload(event);
+    const file = event.target.files?.[0];
+    if (file) {
+      handleFileUpload(file);
+    }
   };
 
   return (
